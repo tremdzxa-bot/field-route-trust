@@ -51,7 +51,22 @@ export function YieldPanel() {
       </div>
 
       <div className="grid sm:grid-cols-2 gap-3 mb-5">
-        <Field label="Región" value={form.region} onChange={(v) => setForm({ ...form, region: v })} />
+        <SelectField
+          label="Departamento"
+          value={form.region}
+          onChange={(v) => setForm({ ...form, region: v })}
+          options={[
+            "La Paz",
+            "Cochabamba",
+            "Santa Cruz",
+            "Oruro",
+            "Potosí",
+            "Chuquisaca",
+            "Tarija",
+            "Beni",
+            "Pando",
+          ]}
+        />
         <Field label="Cultivo" value={form.crop} onChange={(v) => setForm({ ...form, crop: v })} />
         <Field label="Hectáreas" type="number" value={form.hectares} onChange={(v) => setForm({ ...form, hectares: +v })} />
         <Field label="NDVI (0-1)" type="number" step="0.01" value={form.ndvi} onChange={(v) => setForm({ ...form, ndvi: +v })} />
