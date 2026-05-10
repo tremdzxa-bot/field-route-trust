@@ -7,7 +7,7 @@ import { toast } from "sonner";
 type Result = {
   distanceKm: number;
   etaHours: number;
-  fuelCostUsd: number;
+  fuelCostBs: number;
   co2Kg: number;
   waypoints: { name: string; km: number; note: string }[];
   alerts: string[];
@@ -70,7 +70,7 @@ export function RoutePanel() {
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
             <Stat label="Distancia" value={`${Math.round(result.distanceKm)} km`} />
             <Stat label="ETA" value={`${result.etaHours?.toFixed(1)} h`} />
-            <Stat label="Costo" value={`$${Math.round(result.fuelCostUsd)}`} icon={<Fuel className="h-3 w-3" />} />
+            <Stat label="Costo" value={`Bs ${Math.round(result.fuelCostBs).toLocaleString()}`} icon={<Fuel className="h-3 w-3" />} />
             <Stat label="CO₂" value={`${Math.round(result.co2Kg)} kg`} icon={<Leaf className="h-3 w-3" />} />
           </div>
 

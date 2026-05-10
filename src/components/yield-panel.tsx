@@ -51,7 +51,22 @@ export function YieldPanel() {
       </div>
 
       <div className="grid sm:grid-cols-2 gap-3 mb-5">
-        <Field label="Región" value={form.region} onChange={(v) => setForm({ ...form, region: v })} />
+        <SelectField
+          label="Departamento"
+          value={form.region}
+          onChange={(v) => setForm({ ...form, region: v })}
+          options={[
+            "La Paz",
+            "Cochabamba",
+            "Santa Cruz",
+            "Oruro",
+            "Potosí",
+            "Chuquisaca",
+            "Tarija",
+            "Beni",
+            "Pando",
+          ]}
+        />
         <Field label="Cultivo" value={form.crop} onChange={(v) => setForm({ ...form, crop: v })} />
         <Field label="Hectáreas" type="number" value={form.hectares} onChange={(v) => setForm({ ...form, hectares: +v })} />
         <Field label="NDVI (0-1)" type="number" step="0.01" value={form.ndvi} onChange={(v) => setForm({ ...form, ndvi: +v })} />
@@ -97,6 +112,23 @@ function Field({ label, value, onChange, type = "text", step }: { label: string;
         onChange={(e) => onChange(e.target.value)}
         className="mt-1 w-full rounded-md bg-input border border-border px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-primary"
       />
+    </label>
+  );
+}
+
+function SelectField({ label, value, onChange, options }: { label: string; value: string; onChange: (v: string) => void; options: string[] }) {
+  return (
+    <label className="block">
+      <span className="mono text-[10px] uppercase tracking-wider text-muted-foreground">{label}</span>
+      <select
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
+        className="mt-1 w-full rounded-md bg-input border border-border px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-primary"
+      >
+        {options.map((o) => (
+          <option key={o} value={o}>{o}</option>
+        ))}
+      </select>
     </label>
   );
 }

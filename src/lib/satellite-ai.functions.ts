@@ -20,7 +20,7 @@ const RouteInput = z.object({
 
 const SYSTEM_PREDICT = `Eres un agrónomo experto en datos satelitales para Bolivia (Santa Cruz, Beni, Cochabamba, La Paz, Tarija). Analiza NDVI, lluvia y humedad del suelo. Responde SIEMPRE con JSON válido sin markdown, sin explicaciones fuera del JSON.`;
 
-const SYSTEM_ROUTE = `Eres un planificador logístico boliviano experto en transporte de combustible (YPFB) por carretera. Conoces rutas Santa Cruz–La Paz, Cochabamba–Sucre, Tarija–Potosí, etc. Devuelve SIEMPRE JSON válido sin markdown.`;
+const SYSTEM_ROUTE = `Eres un planificador logístico boliviano experto en transporte de combustible (YPFB) por carretera. Conoces rutas Santa Cruz–La Paz, Cochabamba–Sucre, Tarija–Potosí, etc. Todos los costos se expresan en Bolivianos (Bs). Devuelve SIEMPRE JSON válido sin markdown.`;
 
 async function callLovableAI(system: string, user: string) {
   const key = process.env.LOVABLE_API_KEY;
@@ -96,7 +96,7 @@ Devuelve JSON con esta forma exacta:
 {
   "distanceKm": number,
   "etaHours": number,
-  "fuelCostUsd": number,
+  "fuelCostBs": number,
   "co2Kg": number,
   "waypoints": [{"name": string, "km": number, "note": string}],
   "alerts": [string, string],

@@ -12,9 +12,9 @@ type Contract = {
 };
 
 const SEED: Contract[] = [
-  { id: "0xA4F1", producer: "Coop. Yapacaní", carrier: "TransAndina SRL", asset: "Soya · 120 t", amount: 18400, status: "Liberado", txHash: "0x7a…f3b1" },
-  { id: "0xB29C", producer: "Hda. San Julián", carrier: "LogiBol", asset: "Diésel · 32k L", amount: 9800, status: "En tránsito", txHash: "0x12…ae04" },
-  { id: "0xC5D7", producer: "Asoc. Beni Norte", carrier: "RutaSur", asset: "Maíz · 80 t", amount: 11200, status: "Pendiente", txHash: "0x9b…2c10" },
+  { id: "0xA4F1", producer: "Coop. Yapacaní", carrier: "TransAndina SRL", asset: "Soya · 120 t", amount: 128000, status: "Liberado", txHash: "0x7a…f3b1" },
+  { id: "0xB29C", producer: "Hda. San Julián", carrier: "LogiBol", asset: "Diésel · 32k L", amount: 68200, status: "En tránsito", txHash: "0x12…ae04" },
+  { id: "0xC5D7", producer: "Asoc. Beni Norte", carrier: "RutaSur", asset: "Maíz · 80 t", amount: 78000, status: "Pendiente", txHash: "0x9b…2c10" },
 ];
 
 export function ContractsPanel() {
@@ -57,7 +57,7 @@ export function ContractsPanel() {
               <th className="text-left px-4 py-3">Productor</th>
               <th className="text-left px-4 py-3">Transportista</th>
               <th className="text-left px-4 py-3">Activo</th>
-              <th className="text-right px-4 py-3">Monto USDC</th>
+              <th className="text-right px-4 py-3">Monto (Bs)</th>
               <th className="text-left px-4 py-3">Estado</th>
               <th className="text-left px-4 py-3">Tx</th>
             </tr>
@@ -69,7 +69,7 @@ export function ContractsPanel() {
                 <td className="px-4 py-3">{c.producer}</td>
                 <td className="px-4 py-3">{c.carrier}</td>
                 <td className="px-4 py-3 text-muted-foreground">{c.asset}</td>
-                <td className="px-4 py-3 text-right mono">${c.amount.toLocaleString()}</td>
+                <td className="px-4 py-3 text-right mono">Bs {c.amount.toLocaleString()}</td>
                 <td className="px-4 py-3">
                   <Badge status={c.status} />
                 </td>
@@ -88,7 +88,7 @@ export function ContractsPanel() {
               producer: "Nuevo productor",
               carrier: "Sin asignar",
               asset: "Cosecha pendiente",
-              amount: Math.round(5000 + Math.random() * 15000),
+              amount: Math.round(35000 + Math.random() * 100000),
               status: "Pendiente",
               txHash: "0x" + Math.random().toString(16).slice(2, 4) + "…" + Math.random().toString(16).slice(2, 6),
             },
