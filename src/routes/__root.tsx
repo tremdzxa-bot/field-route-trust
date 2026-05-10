@@ -72,14 +72,18 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Lovable App" },
-      { name: "description", content: "Lovable Generated Project" },
+      { title: "inteligenciaOrbital" },
+      { name: "description", content: "Bolivia Crop Connect uses AI to predict crop yields and optimize fuel transport routes in Bolivia." },
       { name: "author", content: "Lovable" },
-      { property: "og:title", content: "Lovable App" },
-      { property: "og:description", content: "Lovable Generated Project" },
+      { property: "og:title", content: "inteligenciaOrbital" },
+      { property: "og:description", content: "Bolivia Crop Connect uses AI to predict crop yields and optimize fuel transport routes in Bolivia." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
       { name: "twitter:site", content: "@Lovable" },
+      { name: "twitter:title", content: "inteligenciaOrbital" },
+      { name: "twitter:description", content: "Bolivia Crop Connect uses AI to predict crop yields and optimize fuel transport routes in Bolivia." },
+      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/7148e045-bd8e-4f69-85fb-fc468f126123/id-preview-f4b8a73e--a413eee2-0a93-4b97-b8a4-3b15ab24d026.lovable.app-1778379786112.png" },
+      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/7148e045-bd8e-4f69-85fb-fc468f126123/id-preview-f4b8a73e--a413eee2-0a93-4b97-b8a4-3b15ab24d026.lovable.app-1778379786112.png" },
     ],
     links: [
       {
