@@ -32,7 +32,7 @@ export function Hero() {
           </div>
           <div className="grid grid-cols-3 gap-4 pt-8 max-w-lg">
             {[
-              { k: "12", l: "Departamentos cubiertos" },
+              { k: "9", l: "Departamentos cubiertos" },
               { k: "0.3 ha", l: "Resolución mínima" },
               { k: "98.4%", l: "Uptime constelación" },
             ].map((s) => (

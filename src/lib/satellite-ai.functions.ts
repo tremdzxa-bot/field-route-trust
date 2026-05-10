@@ -96,7 +96,7 @@ Devuelve JSON con esta forma exacta:
 {
   "distanceKm": number,
   "etaHours": number,
-  "fuelCostUsd": number,
+  "fuelCostBs": number,
   "co2Kg": number,
   "waypoints": [{"name": string, "km": number, "note": string}],
   "alerts": [string, string],
