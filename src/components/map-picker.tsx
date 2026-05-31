@@ -185,7 +185,7 @@ function PointTag({ label, point, color }: { label: string; point: LatLng | null
   );
 }
 
-const DARK_STYLE = [
+export const DARK_STYLE = [
   { elementType: "geometry", stylers: [{ color: "#0b1622" }] },
   { elementType: "labels.text.stroke", stylers: [{ color: "#0b1622" }] },
   { elementType: "labels.text.fill", stylers: [{ color: "#8aa0b3" }] },
