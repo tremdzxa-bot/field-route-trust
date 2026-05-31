@@ -4,7 +4,6 @@ import { SiteHeader } from "@/components/site-header";
 import { Hero } from "@/components/hero";
 import { YieldPanel } from "@/components/yield-panel";
 import { RoutePanel } from "@/components/route-panel";
-import { ContractsPanel } from "@/components/contracts-panel";
 import { Satellite, Cpu, Network } from "lucide-react";
 
 export const Route = createFileRoute("/")({
