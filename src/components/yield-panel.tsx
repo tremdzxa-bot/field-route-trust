@@ -80,6 +80,15 @@ export function YieldPanel() {
 
       {result && (
         <div className="mt-6 space-y-4 border-t border-border pt-6">
+          {result.locationName && (
+            <div className="panel rounded-lg p-3 flex items-start gap-2">
+              <MapPin className="h-3.5 w-3.5 text-primary mt-0.5" />
+              <div>
+                <p className="mono text-[10px] uppercase tracking-wider text-muted-foreground">Parcela analizada</p>
+                <p className="text-sm text-foreground mt-0.5">{result.locationName}</p>
+              </div>
+            </div>
+          )}
           <div className="grid grid-cols-3 gap-3">
             <Stat label="Rendimiento" value={`${result.yieldTonsPerHa?.toFixed(2)} t/ha`} />
             <Stat label="Total" value={`${Math.round(result.totalTons ?? 0)} t`} accent />
