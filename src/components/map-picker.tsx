@@ -14,7 +14,7 @@ const BROWSER_KEY = import.meta.env.VITE_LOVABLE_CONNECTOR_GOOGLE_MAPS_BROWSER_K
 const TRACKING_ID = import.meta.env.VITE_LOVABLE_CONNECTOR_GOOGLE_MAPS_TRACKING_ID as string | undefined;
 
 // Centro aproximado de Bolivia
-const BOLIVIA_CENTER = { lat: -16.6, lng: -64.9 };
+export const BOLIVIA_CENTER = { lat: -16.6, lng: -64.9 };
 
 let scriptPromise: Promise<void> | null = null;
 export function loadMaps(): Promise<void> {
