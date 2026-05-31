@@ -243,3 +243,48 @@ Devuelve SOLO JSON con esta forma exacta (3 a 5 waypoints intermedios realistas 
         typeof narrative.savingsVsBaselinePct === "number" ? narrative.savingsVsBaselinePct : 12,
     };
   });
+
+// ---------- Predicción de cosecha por coordenadas (Google Maps + satélite) ----------
+
+const GeoYieldInput = z.object({
+  point: GeoPoint,
+  crop: z.string().min(1).max(60),
+  hectares: z.number().positive().max(1_000_000),
+  ndvi: z.number().min(0).max(1),
+  rainfallMm: z.number().min(0).max(5000),
+  soilMoisture: z.number().min(0).max(100),
+});
+
+export const predictYieldGeo = createServerFn({ method: "POST" })
+  .inputValidator((d: unknown) => GeoYieldInput.parse(d))
+  .handler(async ({ data }) => {
+    const locationName = await reverseGeocode(data.point);
+
+    const prompt = `Predice el rendimiento agrícola de una parcela ubicada con coordenadas exactas en Bolivia.
+La ubicación se selecciona en Google Maps solo como referencia geográfica; los datos productivos provienen de satélites recientes (Sentinel-2 / Planet).
+
+- Coordenadas (referencia): ${data.point.lat.toFixed(5)}, ${data.point.lng.toFixed(5)}
+- Ubicación aproximada: ${locationName}
+- Cultivo: ${data.crop}
+- Superficie: ${data.hectares} ha
+- NDVI satelital promedio (0-1): ${data.ndvi}
+- Lluvia acumulada 30 días (mm): ${data.rainfallMm}
+- Humedad del suelo (%): ${data.soilMoisture}
+
+Considera la latitud/altitud aproximada según las coordenadas (tierras bajas del oriente, valles o altiplano) para ajustar la predicción.
+
+Devuelve JSON con esta forma exacta:
+{
+  "yieldTonsPerHa": number,
+  "totalTons": number,
+  "confidence": number entre 0 y 1,
+  "harvestWindow": "string fecha estimada",
+  "risks": [string, string, string],
+  "recommendations": [string, string, string],
+  "satelliteSignal": "weak"|"good"|"excellent"
+}`;
+
+    const result = await callLovableAI(SYSTEM_PREDICT, prompt);
+    return { ...result, locationName };
+  });
+

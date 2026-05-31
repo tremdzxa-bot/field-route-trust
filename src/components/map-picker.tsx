@@ -14,10 +14,10 @@ const BROWSER_KEY = import.meta.env.VITE_LOVABLE_CONNECTOR_GOOGLE_MAPS_BROWSER_K
 const TRACKING_ID = import.meta.env.VITE_LOVABLE_CONNECTOR_GOOGLE_MAPS_TRACKING_ID as string | undefined;
 
 // Centro aproximado de Bolivia
-const BOLIVIA_CENTER = { lat: -16.6, lng: -64.9 };
+export const BOLIVIA_CENTER = { lat: -16.6, lng: -64.9 };
 
 let scriptPromise: Promise<void> | null = null;
-function loadMaps(): Promise<void> {
+export function loadMaps(): Promise<void> {
   if (typeof window === "undefined") return Promise.reject(new Error("no window"));
   if (window.google?.maps) return Promise.resolve();
   if (scriptPromise) return scriptPromise;
@@ -185,7 +185,7 @@ function PointTag({ label, point, color }: { label: string; point: LatLng | null
   );
 }
 
-const DARK_STYLE = [
+export const DARK_STYLE = [
   { elementType: "geometry", stylers: [{ color: "#0b1622" }] },
   { elementType: "labels.text.stroke", stylers: [{ color: "#0b1622" }] },
   { elementType: "labels.text.fill", stylers: [{ color: "#8aa0b3" }] },
