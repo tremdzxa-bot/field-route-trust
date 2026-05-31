@@ -1,10 +1,13 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useServerFn } from "@tanstack/react-start";
-import { optimizeRoute } from "@/lib/satellite-ai.functions";
-import { Loader2, Truck, MapPin, Fuel, Leaf } from "lucide-react";
+import { optimizeRouteGeo } from "@/lib/satellite-ai.functions";
+import { MapPicker, type LatLng } from "@/components/map-picker";
+import { Loader2, Truck, Fuel, Leaf } from "lucide-react";
 import { toast } from "sonner";
 
 type Result = {
+  originName: string;
+  destName: string;
   distanceKm: number;
   etaHours: number;
   fuelCostBs: number;
@@ -15,27 +18,47 @@ type Result = {
 };
 
 export function RoutePanel() {
-  const optimize = useServerFn(optimizeRoute);
+  const optimize = useServerFn(optimizeRouteGeo);
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<Result | null>(null);
+  const [origin, setOrigin] = useState<LatLng | null>(null);
+  const [destination, setDestination] = useState<LatLng | null>(null);
   const [form, setForm] = useState({
-    origin: "Refinería Palmasola, Santa Cruz",
-    destination: "El Alto, La Paz",
     fuelType: "Diésel",
     volumeLiters: 32000,
     trucks: 2,
   });
 
-  const handle = async () => {
+  const formRef = useRef(form);
+  formRef.current = form;
+  const runId = useRef(0);
+
+  const run = async (o: LatLng, d: LatLng) => {
+    const id = ++runId.current;
     setLoading(true);
     try {
-      const res = await optimize({ data: form });
-      setResult(res as Result);
+      const res = await optimize({ data: { origin: o, destination: d, ...formRef.current } });
+      if (id === runId.current) setResult(res as Result);
     } catch (e: any) {
-      toast.error(e?.message ?? "Error optimizando ruta");
+      if (id === runId.current) toast.error(e?.message ?? "Error optimizando ruta");
     } finally {
-      setLoading(false);
+      if (id === runId.current) setLoading(false);
     }
+  };
+
+  // Calcula automáticamente al seleccionar ambos puntos
+  useEffect(() => {
+    if (origin && destination) {
+      run(origin, destination);
+    } else {
+      setResult(null);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [origin, destination]);
+
+  const handleSelect = (next: { origin: LatLng | null; destination: LatLng | null }) => {
+    setOrigin(next.origin);
+    setDestination(next.destination);
   };
 
   return (
@@ -44,29 +67,36 @@ export function RoutePanel() {
         <div>
           <p className="mono text-[10px] uppercase tracking-[0.25em] text-accent">Módulo 02</p>
           <h3 className="text-2xl font-semibold mt-1">Optimización de rutas</h3>
-          <p className="text-sm text-muted-foreground mt-1">Transporte de combustible · YPFB</p>
+          <p className="text-sm text-muted-foreground mt-1">Selecciona en el mapa · YPFB</p>
         </div>
         <Truck className="h-6 w-6 text-accent" />
       </div>
 
-      <div className="grid sm:grid-cols-2 gap-3 mb-5">
-        <Field label="Origen" value={form.origin} onChange={(v) => setForm({ ...form, origin: v })} />
-        <Field label="Destino" value={form.destination} onChange={(v) => setForm({ ...form, destination: v })} />
+      <MapPicker origin={origin} destination={destination} onChange={handleSelect} />
+
+      <div className="grid sm:grid-cols-3 gap-3 mt-5">
         <Field label="Combustible" value={form.fuelType} onChange={(v) => setForm({ ...form, fuelType: v })} />
         <Field label="Volumen (L)" type="number" value={form.volumeLiters} onChange={(v) => setForm({ ...form, volumeLiters: +v })} />
         <Field label="Cisternas" type="number" value={form.trucks} onChange={(v) => setForm({ ...form, trucks: +v })} />
       </div>
 
-      <button
-        onClick={handle}
-        disabled={loading}
-        className="w-full inline-flex items-center justify-center gap-2 px-4 py-3 rounded-md bg-accent text-accent-foreground font-medium hover:opacity-90 transition disabled:opacity-50"
-      >
-        {loading ? <><Loader2 className="h-4 w-4 animate-spin" /> Calculando ruta...</> : <>Optimizar ruta <MapPin className="h-4 w-4" /></>}
-      </button>
+      {loading && (
+        <div className="mt-6 flex items-center gap-2 text-sm text-muted-foreground">
+          <Loader2 className="h-4 w-4 animate-spin text-accent" /> Calculando ruta real con datos satelitales...
+        </div>
+      )}
 
-      {result && (
+      {!loading && !result && (
+        <p className="mt-5 text-xs text-muted-foreground mono">
+          Toca dos ubicaciones en el mapa para generar el cálculo automáticamente.
+        </p>
+      )}
+
+      {result && !loading && (
         <div className="mt-6 space-y-4 border-t border-border pt-6">
+          <div className="text-xs mono text-muted-foreground">
+            <span className="text-accent">A</span> {result.originName} <span className="text-primary">→ B</span> {result.destName}
+          </div>
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
             <Stat label="Distancia" value={`${Math.round(result.distanceKm)} km`} />
             <Stat label="ETA" value={`${result.etaHours?.toFixed(1)} h`} />
