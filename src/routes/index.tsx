@@ -32,7 +32,7 @@ function Index() {
             {[
               { icon: <Satellite className="h-5 w-5" />, t: "Datos abiertos", d: "Sentinel-2, MODIS y Planet ahora más accesibles en Bolivia. Nosotros los traducimos a decisiones." },
               { icon: <Cpu className="h-5 w-5" />, t: "IA aplicada", d: "Modelos de predicción entrenados con datos del Altiplano, los Llanos y los valles." },
-              { icon: <Network className="h-5 w-5" />, t: "Pagos Web3", d: "Escrow on-chain entre productor y transportista. Liberación automática verificada por satélite." },
+              { icon: <Network className="h-5 w-5" />, t: "Rutas optimizadas", d: "Selecciona ubicaciones en el mapa y calcula distancias, costos y emisiones en segundos." },
             ].map((f) => (
               <div key={f.t} className="panel rounded-xl p-6">
                 <div className="text-primary">{f.icon}</div>
