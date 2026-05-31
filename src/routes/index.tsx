@@ -4,7 +4,6 @@ import { SiteHeader } from "@/components/site-header";
 import { Hero } from "@/components/hero";
 import { YieldPanel } from "@/components/yield-panel";
 import { RoutePanel } from "@/components/route-panel";
-import { ContractsPanel } from "@/components/contracts-panel";
 import { Satellite, Cpu, Network } from "lucide-react";
 
 export const Route = createFileRoute("/")({
@@ -33,7 +32,7 @@ function Index() {
             {[
               { icon: <Satellite className="h-5 w-5" />, t: "Datos abiertos", d: "Sentinel-2, MODIS y Planet ahora más accesibles en Bolivia. Nosotros los traducimos a decisiones." },
               { icon: <Cpu className="h-5 w-5" />, t: "IA aplicada", d: "Modelos de predicción entrenados con datos del Altiplano, los Llanos y los valles." },
-              { icon: <Network className="h-5 w-5" />, t: "Pagos Web3", d: "Escrow on-chain entre productor y transportista. Liberación automática verificada por satélite." },
+              { icon: <Network className="h-5 w-5" />, t: "Rutas optimizadas", d: "Selecciona ubicaciones en el mapa y calcula distancias, costos y emisiones en segundos." },
             ].map((f) => (
               <div key={f.t} className="panel rounded-xl p-6">
                 <div className="text-primary">{f.icon}</div>
@@ -59,9 +58,7 @@ function Index() {
           </div>
         </section>
 
-        <section className="mx-auto max-w-7xl px-6 py-16">
-          <ContractsPanel />
-        </section>
+
 
         <footer className="border-t border-border mt-20">
           <div className="mx-auto max-w-7xl px-6 py-10 flex flex-wrap items-center justify-between gap-4">
