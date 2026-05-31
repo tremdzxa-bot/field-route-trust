@@ -72,7 +72,7 @@ export function YieldPanel() {
 
       <button
         onClick={handle}
-        disabled={loading}
+        disabled={loading || !point}
         className="w-full inline-flex items-center justify-center gap-2 px-4 py-3 rounded-md bg-primary text-primary-foreground font-medium hover:opacity-90 transition disabled:opacity-50"
       >
         {loading ? <><Loader2 className="h-4 w-4 animate-spin" /> Analizando órbita...</> : <>Predecir cosecha <TrendingUp className="h-4 w-4" /></>}
