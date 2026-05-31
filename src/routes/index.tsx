@@ -58,9 +58,7 @@ function Index() {
           </div>
         </section>
 
-        <section className="mx-auto max-w-7xl px-6 py-16">
-          <ContractsPanel />
-        </section>
+
 
         <footer className="border-t border-border mt-20">
           <div className="mx-auto max-w-7xl px-6 py-10 flex flex-wrap items-center justify-between gap-4">
