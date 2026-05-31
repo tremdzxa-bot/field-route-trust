@@ -17,7 +17,7 @@ const TRACKING_ID = import.meta.env.VITE_LOVABLE_CONNECTOR_GOOGLE_MAPS_TRACKING_
 const BOLIVIA_CENTER = { lat: -16.6, lng: -64.9 };
 
 let scriptPromise: Promise<void> | null = null;
-function loadMaps(): Promise<void> {
+export function loadMaps(): Promise<void> {
   if (typeof window === "undefined") return Promise.reject(new Error("no window"));
   if (window.google?.maps) return Promise.resolve();
   if (scriptPromise) return scriptPromise;
