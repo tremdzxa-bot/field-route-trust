@@ -1,7 +1,9 @@
 import { useState } from "react";
 import { useServerFn } from "@tanstack/react-start";
-import { predictYield } from "@/lib/satellite-ai.functions";
-import { Loader2, Sprout, TrendingUp, AlertTriangle, CheckCircle2 } from "lucide-react";
+import { predictYieldGeo } from "@/lib/satellite-ai.functions";
+import { ParcelPicker } from "@/components/parcel-picker";
+import type { LatLng } from "@/components/map-picker";
+import { Loader2, Sprout, TrendingUp, AlertTriangle, CheckCircle2, MapPin } from "lucide-react";
 import { toast } from "sonner";
 
 type Result = {
@@ -12,14 +14,15 @@ type Result = {
   risks: string[];
   recommendations: string[];
   satelliteSignal: "weak" | "good" | "excellent";
+  locationName?: string;
 };
 
 export function YieldPanel() {
-  const predict = useServerFn(predictYield);
+  const predict = useServerFn(predictYieldGeo);
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<Result | null>(null);
+  const [point, setPoint] = useState<LatLng | null>(null);
   const [form, setForm] = useState({
-    region: "Santa Cruz",
     crop: "Soya",
     hectares: 250,
     ndvi: 0.71,
@@ -28,9 +31,13 @@ export function YieldPanel() {
   });
 
   const handle = async () => {
+    if (!point) {
+      toast.error("Selecciona la ubicación de tu parcela en el mapa");
+      return;
+    }
     setLoading(true);
     try {
-      const res = await predict({ data: form });
+      const res = await predict({ data: { ...form, point } });
       setResult(res as Result);
     } catch (e: any) {
       toast.error(e?.message ?? "Error en la predicción");
@@ -45,34 +52,23 @@ export function YieldPanel() {
         <div>
           <p className="mono text-[10px] uppercase tracking-[0.25em] text-primary">Módulo 01</p>
           <h3 className="text-2xl font-semibold mt-1">Predicción de rendimiento</h3>
-          <p className="text-sm text-muted-foreground mt-1">IA + datos satelitales NDVI/MODIS</p>
+          <p className="text-sm text-muted-foreground mt-1">Ubica tu parcela en el mapa · datos satelitales NDVI/MODIS</p>
         </div>
         <Sprout className="h-6 w-6 text-primary" />
       </div>
 
+      <div className="mb-5">
+        <ParcelPicker point={point} onChange={setPoint} />
+      </div>
+
       <div className="grid sm:grid-cols-2 gap-3 mb-5">
-        <SelectField
-          label="Departamento"
-          value={form.region}
-          onChange={(v) => setForm({ ...form, region: v })}
-          options={[
-            "La Paz",
-            "Cochabamba",
-            "Santa Cruz",
-            "Oruro",
-            "Potosí",
-            "Chuquisaca",
-            "Tarija",
-            "Beni",
-            "Pando",
-          ]}
-        />
         <Field label="Cultivo" value={form.crop} onChange={(v) => setForm({ ...form, crop: v })} />
         <Field label="Hectáreas" type="number" value={form.hectares} onChange={(v) => setForm({ ...form, hectares: +v })} />
         <Field label="NDVI (0-1)" type="number" step="0.01" value={form.ndvi} onChange={(v) => setForm({ ...form, ndvi: +v })} />
         <Field label="Lluvia 30d (mm)" type="number" value={form.rainfallMm} onChange={(v) => setForm({ ...form, rainfallMm: +v })} />
         <Field label="Humedad suelo (%)" type="number" value={form.soilMoisture} onChange={(v) => setForm({ ...form, soilMoisture: +v })} />
       </div>
+
 
       <button
         onClick={handle}
