@@ -18,7 +18,6 @@ export function SiteHeader() {
         <nav className="hidden md:flex items-center gap-7 text-sm text-muted-foreground">
           <a href="#mission" className="hover:text-foreground transition">Misión</a>
           <a href="#dashboard" className="hover:text-foreground transition">Dashboard</a>
-          <a href="#contracts" className="hover:text-foreground transition">Contratos</a>
         </nav>
         <a
           href="#dashboard"
